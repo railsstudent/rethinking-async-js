@@ -20,8 +20,36 @@ function output(text) {
 // **************************************
 
 function getFile(file) {
-	// what do we do here?
+	var text;
+	var fn;
+	fakeAjax(file, function(response) {
+		if (fn) {
+			fn(response);
+		} else {
+			text = response;
+		}
+	});
+
+	return function(cb) {
+		if (text) {
+			cb(text);
+		} else {
+			fn = cb;
+		}
+	};
 }
 
-// request all files at once in "parallel"
-// ???
+var th1 = getFile("file1");
+var th2 = getFile("file2");
+var th3 = getFile("file3");
+
+th1(function(text1) {
+	output(text1);
+	th2(function(text2) {
+		output(text2);
+		th3(function(text3) {
+			output(text3);
+			output("Complete!");
+		});
+	})
+})
