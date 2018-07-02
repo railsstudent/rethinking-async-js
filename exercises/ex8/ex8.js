@@ -4,7 +4,6 @@ $(document).ready(function() {
 
   var clicked = ASQ.react.of(),
     msgs = ASQ.react.of(),
-    timer = ASQ.react.of(),
     latest = null;
 
   $btn.click(function(evt) {
